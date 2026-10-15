@@ -1,0 +1,47 @@
+unit conData;
+
+interface
+
+uses
+  SysUtils, Classes, DB, ADODB;
+
+type
+  TdbmDatadb = class(TDataModule)
+    procedure DataModuleCreate(Sender: TObject);
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+     tblItemsdb :TADOTable;
+     dscDatadb :TDataSource;
+     conDatadb :TADOConnection;
+  end;
+
+var
+  dbmDatadb: TdbmDatadb;
+
+implementation
+
+{$R *.dfm}
+
+procedure TdbmDatadb.DataModuleCreate(Sender: TObject);
+begin
+  conDatadb := TADOConnection.Create(dbmDatadb);
+  tblItemsdb := TADOTable.Create(dbmDatadb);
+  dscDatadb := TDataSource.Create(dbmDatadb);
+
+  conDatadb.Close;
+  conDatadb.ConnectionString := 'Provider=Microsoft.JET.OLEDB.4.0;Data Source=' +
+  ExtractFilePath(ParamStr(0)) + 'dbData.mdb' + ';' + 'Persist Security Info = False';
+  conDatadb.LoginPrompt := false;
+  conDatadb.Open;
+
+  tblItemsdb.Connection := conDatadb;
+  tblItemsdb.TableName := 'tblItems';
+
+  dscDatadb.DataSet := tblItemsdb;
+  tblItemsdb.Open;
+
+end;
+
+end.

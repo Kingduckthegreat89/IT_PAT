@@ -1,0 +1,345 @@
+{
+  Finish the add Item button
+}
+unit Orders_U;
+
+interface
+
+uses
+  Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
+  Dialogs, StdCtrls, ComCtrls, Spin, ADODB, DB, conData, StrUtils;
+
+type
+  TfrmOrders = class(TForm)
+    btnChangeOrder: TButton;
+    btnCheckStock: TButton;
+    btnEdit: TButton;
+    btnFinish: TButton;
+    btnItemAdd: TButton;
+    btnListItems: TButton;
+    btnRemove: TButton;
+    cmbItems: TComboBox;
+    cmbStock: TComboBox;
+    lblDoesNothingButShowSomething: TLabel;
+    lblLbl: TLabel;
+    lblOrder: TLabel;
+    redDisplay: TRichEdit;
+    spnAmount: TSpinEdit;
+    spnNewAmount: TSpinEdit;
+    procedure lblOrderClick(Sender: TObject);
+    procedure btnListItemsClick(Sender: TObject);
+    procedure btnCheckStockClick(Sender: TObject);
+    procedure FormCreate(Sender: TObject);
+    procedure btnEditClick(Sender: TObject);
+    procedure btnItemAddClick(Sender: TObject);
+    procedure FormCloseQuery(Sender: TObject; var CanClose: Boolean);
+    procedure btnChangeOrderClick(Sender: TObject);
+    procedure btnRemoveClick(Sender: TObject);
+  private
+    { Private declarations }
+    procedure OrderFormat;
+  public
+    { Public declarations }
+
+  end;
+
+var
+  frmOrders: TfrmOrders;
+  arrPromoCodes : array [1..12] of string = ('kingduck','geesebad','duck','haaskop','microwave','waar','trees','papyrus','birdstrike','cats','whoami','gentoobtw');
+  rTotal :real;
+  bHasDiscount :boolean;
+
+implementation
+uses
+Main_U, usrStart_U, Settings_U;
+
+{$R *.dfm}
+
+procedure TfrmOrders.btnChangeOrderClick(Sender: TObject);
+var
+ sRandomCode, sActualCode :string;
+ i :integer;
+begin
+randomize;
+{
+1. Get new value
+2. Multiply new value with the amount of chosen item
+3. Change rTotal
+4. Exit
+}
+sRandomCode := arrPromoCodes[random(13)];
+
+with conData.dbmDatadb do
+  begin
+    tblOrdersdb.Open;
+    tblOrdersdb.first;
+    OrderFormat;
+    if NOT tblOrdersdb.IsEmpty then 
+    redDisplay.Lines.Add(inttostr(tblOrdersdb['OrderID']) + #9 + tblOrdersdb['clientName'] + tblOrdersdb['clientSurname'] + #9 +tblOrdersdb['Item'] + #9 + floattostrf(tblOrdersdb['Total'], ffCurrency, 8, 2));
+
+    while not tblOrdersdb.Eof do
+    begin
+      MessageDlg('Currently the only thing you can edit is whether or not you have a secret code. This button is therefor purely used to retry secret codes. Kinda dissapointing, I know. Hey, at least you now know that one of the secret codes is ' + sRandomCode, mtInformation, mbOKCancel, 0);
+      sActualCode := inputbox('Code box', 'Please enter the second attempt at the correct code', '');
+
+      for i := 1 to 12 do
+        begin
+        if sActualCode = arrPromoCodes[i] then
+          begin
+           if rTotal > 0 then
+             rTotal := rTotal * 100 / 115;
+          end;
+        end;
+    end;
+  end;  
+end;
+
+procedure TfrmOrders.btnCheckStockClick(Sender: TObject);
+var
+ sItem :string;
+begin
+ sItem := cmbStock.Items[cmbStock.ItemIndex];
+
+ with conData.dbmDatadb do
+ begin
+   tblItemsdb.First;
+   while NOT tblItemsdb.Eof do
+   begin
+     if tblItemsdb['Item'] = sItem then
+     begin
+      showmessage(sItem + ':' + inttostr(tblItemsdb['Stock']) + ' left');
+      break;
+     end
+     else if tblItemsdb['Item'] <> sItem then
+     begin
+       tblItemsdb.Next;
+     end
+     else if sItem = '' then
+     begin
+       MessageDlg('Please select a value before checking stock!', mtError, mbOKCancel, 0);
+       break;
+     end;
+
+   end;
+ end;
+end;
+
+procedure TfrmOrders.btnEditClick(Sender: TObject);
+begin
+btnChangeOrder.Visible := true;
+end;
+
+procedure TfrmOrders.btnItemAddClick(Sender: TObject);
+var
+ sItem, sItemType, sClientName, sClientSurname, sBank, sCode :string;
+ iPrice, iNumberofItems, i :integer;
+ tfData :textfile;
+begin
+//read the ComboBox
+ sItem := cmbItems.Items[cmbItems.ItemIndex];
+ bHasDiscount := false;
+ //Check if the item exists in the database
+ with conData.dbmDatadb do
+ begin
+   tblItemsdb.First;
+
+   while not tblItemsdb.Eof do
+   begin
+     if sItem = tblItemsdb['Item'] then
+     begin
+       iPrice := tblItemsdb['Price'];
+       sItemType := tblItemsdb['itemType'];
+       iNumberofItems := spnAmount.Value;
+
+       sClientName := inputbox('Your Name', 'Please enter your first name', '');
+       sClientSurname := inputbox('Your surname', 'Please enter your surname', '');
+       sbank := InputBox('Bank', 'Please enter which bank you use(type "no" if you prefer not answering)', '');
+
+       rTotal := rTotal + tblItemsdb['Price'];
+       sCode := InputBox('Code', 'Get [[SUPER LOW DISCOUNT]] by entering a [[MEGA SECRET CODE]] for a chance at [[15% OFF!!]]', '');
+       for i := 0 to Length(arrPromoCodes) -1 do
+       begin
+         if sCode = arrPromoCodes[i] then
+         bHasDiscount := true;
+       end;
+
+
+       //Database logic
+       if (tblItemsdb['Stock'] <> 0) AND (iNumberofItems < tblItemsdb['Stock']) then
+       begin
+         tblItemsdb.Edit;
+         tblItemsdb['Stock'] := tblItemsdb['Stock'] - iNumberofItems;
+         tblItemsdb.Post;
+       end
+       else if tblItemsdb['Stock'] = 0 then
+            begin
+              Showmessage('We have ran out of stock for this item. Sorry for the inconvenience! We (Unfortuantly wont since the creator is greedy) will notify you once we have stock again');
+              break;
+            end;
+       if (sClientName = '') OR (sClientSurname = '') OR (sItem = '') OR (sItemType = '') then
+       begin
+        MessageDlg('Correct data has not been entered in either 1 or more fields, please ensure you have filled out ALL the fields that you were asked to fill'
+        , mtError, mbOKCancel, 0);
+        break
+       end
+       else
+       begin
+       if sBank = '' then
+        sBank := 'Not shared';
+
+       tblOrdersdb.Open;
+       tblOrdersdb.Edit;
+       tblOrdersdb.Append;
+       tblOrdersdb['clientName'] := sClientName;
+       tblOrdersdb['clientSurname'] := sClientSurname;
+       tblOrdersdb['Bank'] := sBank;
+       tblOrdersdb['Item'] := sItem;
+       tblOrdersdb['ItemType'] := sItemType;
+       tblOrdersdb['discountOption'] := bHasDiscount;
+       tblOrdersdb['discountValue'] := 15;
+
+       if bHasDiscount then
+       rTotal := rTotal / 15;
+
+       tblOrdersdb['Total'] := rTotal;
+       //break the loop if finished
+       tblOrdersdb.Post;
+       break;
+       end;
+     end
+     else
+     tblItemsdb.Next;
+   end;
+ end;
+end;
+
+procedure TfrmOrders.btnListItemsClick(Sender: TObject);
+begin
+redDisplay.Lines.Clear;
+redDisplay.Lines.Add('Item Name:' + #9 + '| Price:');
+  with conData.dbmDatadb do
+  begin
+    tblItemsdb.First;
+
+    while NOT tblItemsdb.Eof do
+    begin
+     //redDisplay.Lines.Add(tblItemsdb['Item']);
+     //tblItemsdb.Next;
+
+     if tblItemsdb['Secret Item'] = false then
+     begin
+       redDisplay.Lines.Add(tblItemsdb['Item'] + #9 + floattostrf(tblItemsdb['Price'], ffCurrency, 8, 2)
+       + #10 + '----------------------------------------------------------------------------------------');
+       cmbStock.Items.Add(tblItemsdb['Item']);
+       cmbItems.Items.Add(tblItemsdb['Item']);
+       tblItemsdb.Next;
+     end
+     else
+     tblItemsdb.Next;
+
+    end;
+  end;
+end;
+
+procedure TfrmOrders.btnRemoveClick(Sender: TObject);
+var
+ sUsrName, sOrderStr, sFullName :string;
+ bUsrFound, bFoundRecord :boolean;
+begin
+ bUsrFound := False;
+ bFoundRecord := false;
+ with conData.dbmDatadb do
+ begin
+   {How to remove orders
+      1. Display order list based on the user's name
+      2. Allow them to select the order number and loop to it
+      3. Delete the order on the selected number
+   }
+  tblOrdersdb.Open;
+  tblOrdersdb.First;
+  sUsrName := InputBox('Name', 'Enter your name/the name you entered on your past orders', '');
+
+  while not tblOrdersdb.Eof do
+    begin
+      if uppercase(sUsrName) = uppercase(tblOrdersdb['clientName']) then
+      begin
+       bUsrFound := true;
+       sFullName := sUsrName + ' ' + tblOrdersdb['clientSurname'];
+       OrderFormat;
+       redDisplay.Lines.Add(inttostr(tblOrdersdb['OrderID']) + #9 + sFullName + #9 +tblOrdersdb['Item'] + #9 + floattostrf(tblOrdersdb['Total'], ffCurrency, 8, 2));
+
+       break;
+      end
+    else
+     tblOrdersdb.Next
+  end;
+  repeat
+  	  
+  if bUsrFound = false then
+  begin
+    showmessage('Your name was not found, either you made a mistake in spelling or you have not made an order');
+    Break;
+  end;
+  case MessageDlg('Is this the correct order ID?', mtConfirmation, mbYesNoCancel, 0) of
+    mrCancel:
+      begin
+        ShowMessage('Record deletion canceled');
+	break;
+      end;
+    mrYes:
+      begin
+        ShowMessage('Deleting order');
+	conData.dbmDatadb.tblOrdersdb.Delete;
+	Showmessage('Order Deleted');
+	bFoundRecord := true;
+	Showmessage('Please give me a good rating, I haven' + #39 +'t  been fed in days. That salesman promised me food if I made enough Kromer for him. Promised me that I could be a BIGSHOT. I hope he was teling the truth.');
+	break;
+      end;
+    mrNo:
+      begin
+        ShowMessage('Moving to the next order');
+	tblOrdersdb.Next;
+      end;
+  end;
+until bFoundRecord = false;
+
+end;
+
+end;
+procedure TfrmOrders.FormCloseQuery(Sender: TObject; var CanClose: Boolean);
+var
+ iQuit :integer;
+begin
+iQuit := MessageDlg('Are you sure you want to quit?', mtConfirmation, mbYesNo, 0);
+ if iQuit = 6 then
+  Application.Terminate
+  else
+  CanClose := false;
+end;
+
+procedure TfrmOrders.FormCreate(Sender: TObject);
+begin
+redDisplay.Paragraph.TabCount := 3;
+redDisplay.Paragraph.Tab[1] := 100;
+redDisplay.Paragraph.Tab[2] := 200;
+redDisplay.Paragraph.Tab[3] := 300;
+end;
+
+
+procedure TfrmOrders.lblOrderClick(Sender: TObject);
+begin
+showmessage('Chaos');
+end;
+
+
+
+
+
+procedure TfrmOrders.OrderFormat;
+begin
+ redDisplay.Lines.Clear;
+ redDisplay.Lines.Add('Order ID:' + #9 + '|' + 'Full Name:' + #9 + '|' + 'Item:' + #9 + '|' + 'Total:' + #9);
+end;
+
+
+end.

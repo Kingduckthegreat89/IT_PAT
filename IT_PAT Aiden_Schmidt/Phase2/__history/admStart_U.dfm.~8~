@@ -1,0 +1,97 @@
+object frmAdmMenu: TfrmAdmMenu
+  Left = 0
+  Top = 0
+  Caption = 'Admin Controls'
+  ClientHeight = 624
+  ClientWidth = 1042
+  Color = clBtnFace
+  Font.Charset = DEFAULT_CHARSET
+  Font.Color = clWindowText
+  Font.Height = -13
+  Font.Name = 'Tahoma'
+  Font.Style = []
+  OldCreateOrder = False
+  OnClose = FormClose
+  PixelsPerInch = 120
+  TextHeight = 16
+  object Label1: TLabel
+    Left = 88
+    Top = 16
+    Width = 370
+    Height = 75
+    Caption = 'Admin Menu'
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clWindowText
+    Font.Height = -67
+    Font.Name = 'Times New Roman'
+    Font.Style = [fsBold, fsItalic]
+    ParentFont = False
+    OnClick = Label1Click
+  end
+  object btnDatabaseForm: TButton
+    Left = 136
+    Top = 128
+    Width = 275
+    Height = 50
+    Caption = 'View Stock Table'
+    TabOrder = 0
+    OnClick = btnDatabaseFormClick
+  end
+  object btnReviewFeedBack: TButton
+    Left = 136
+    Top = 232
+    Width = 275
+    Height = 50
+    Caption = 'View Feedback'
+    TabOrder = 1
+  end
+  object btnOrders: TButton
+    Left = 136
+    Top = 440
+    Width = 275
+    Height = 50
+    Caption = 'Edit Orders'
+    TabOrder = 2
+    OnClick = btnOrdersClick
+  end
+  object btnCodes: TButton
+    Left = 136
+    Top = 336
+    Width = 275
+    Height = 50
+    Caption = 'Special Codes'
+    TabOrder = 3
+  end
+  object btnNukeApp: TButton
+    Left = 136
+    Top = 537
+    Width = 275
+    Height = 50
+    Caption = 'Exit'
+    TabOrder = 4
+    OnClick = btnNukeAppClick
+  end
+  object dbgTables: TDBGrid
+    Left = 481
+    Top = 48
+    Width = 553
+    Height = 513
+    TabOrder = 5
+    TitleFont.Charset = DEFAULT_CHARSET
+    TitleFont.Color = clWindowText
+    TitleFont.Height = -13
+    TitleFont.Name = 'Tahoma'
+    TitleFont.Style = []
+    Visible = False
+  end
+  object btnSave: TButton
+    Left = 528
+    Top = 567
+    Width = 97
+    Height = 49
+    Caption = 'Save Database'
+    TabOrder = 6
+    Visible = False
+    OnClick = btnSaveClick
+  end
+end

@@ -1,0 +1,67 @@
+object frmMain: TfrmMain
+  Left = 0
+  Top = 0
+  Caption = 'Main Menu'
+  ClientHeight = 600
+  ClientWidth = 650
+  Color = clBtnFace
+  Font.Charset = DEFAULT_CHARSET
+  Font.Color = clWindowText
+  Font.Height = -13
+  Font.Name = 'Tahoma'
+  Font.Style = []
+  OldCreateOrder = False
+  OnCloseQuery = FormCloseQuery
+  PixelsPerInch = 120
+  TextHeight = 16
+  object lblTitle: TLabel
+    Left = 224
+    Top = 48
+    Width = 188
+    Height = 34
+    Caption = 'The Silk Coller'
+    Font.Charset = ANSI_CHARSET
+    Font.Color = clBlack
+    Font.Height = -30
+    Font.Name = 'Times New Roman'
+    Font.Style = [fsBold, fsItalic]
+    ParentFont = False
+    OnClick = lblTitleClick
+  end
+  object btnAdmStart: TButton
+    Left = 200
+    Top = 224
+    Width = 250
+    Height = 50
+    Caption = 'Start As Admin'
+    TabOrder = 0
+    OnClick = btnAdmStartClick
+  end
+  object btnUsrStart: TButton
+    Left = 200
+    Top = 128
+    Width = 250
+    Height = 50
+    Caption = 'Start'
+    TabOrder = 1
+    OnClick = btnUsrStartClick
+  end
+  object btnSettings: TButton
+    Left = 200
+    Top = 320
+    Width = 250
+    Height = 50
+    Caption = 'Settings'
+    TabOrder = 2
+    OnClick = btnSettingsClick
+  end
+  object btnMurderMyApp: TButton
+    Left = 200
+    Top = 416
+    Width = 250
+    Height = 50
+    Caption = 'Quit'
+    TabOrder = 3
+    OnClick = btnMurderMyAppClick
+  end
+end
