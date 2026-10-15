@@ -1,0 +1,3 @@
+Name/feedbacktype/feedback |
+aiden/Negative/bad food|
+kingduck/Negative/Bad food but worse|

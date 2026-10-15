@@ -1,0 +1,69 @@
+unit admStart_U;
+
+interface
+
+uses
+  Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
+  Dialogs, StdCtrls, DB, ADODB, Grids, DBGrids;
+
+type
+  TfrmAdmMenu = class(TForm)
+    btnDatabaseForm: TButton;
+    btnReviewFeedBack: TButton;
+    btnOrders: TButton;
+    btnCodes: TButton;
+    btnNukeApp: TButton;
+    Label1: TLabel;
+    dbgTables: TDBGrid;
+    btnSave: TButton;
+    procedure FormClose(Sender: TObject; var Action: TCloseAction);
+    procedure btnNukeAppClick(Sender: TObject);
+    procedure Label1Click(Sender: TObject);
+    procedure btnDatabaseFormClick(Sender: TObject);
+    procedure btnOrdersClick(Sender: TObject);
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  frmAdmMenu: TfrmAdmMenu;
+
+implementation
+uses
+Main_U, conData;
+
+{$R *.dfm}
+
+procedure TfrmAdmMenu.btnDatabaseFormClick(Sender: TObject);
+begin
+  dbgTables.Visible := true;
+  btnSave.Visible := True;
+  dbgTables.DataSource := conData.dbmDatadb.dscDatadb;
+end;
+
+procedure TfrmAdmMenu.btnNukeAppClick(Sender: TObject);
+begin
+  frmMain.CloseApp;
+end;
+
+procedure TfrmAdmMenu.btnOrdersClick(Sender: TObject);
+begin
+  dbgTables.DataSource := conData.dbmDatadb.dscData2db;
+  dbgTables.Visible := True;
+  btnSave.Visible := True;
+end;
+
+procedure TfrmAdmMenu.FormClose(Sender: TObject; var Action: TCloseAction);
+begin
+ Action := caHide;
+ frmMain.Show;
+end;
+
+procedure TfrmAdmMenu.Label1Click(Sender: TObject);
+begin
+Showmessage('Hello person who clicked a label and not a button');
+end;
+
+end.

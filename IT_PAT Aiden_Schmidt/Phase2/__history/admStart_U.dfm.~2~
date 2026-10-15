@@ -1,0 +1,58 @@
+object frmAdmMenu: TfrmAdmMenu
+  Left = 0
+  Top = 0
+  Caption = 'Admin Controls'
+  ClientHeight = 643
+  ClientWidth = 641
+  Color = clBtnFace
+  Font.Charset = DEFAULT_CHARSET
+  Font.Color = clWindowText
+  Font.Height = -13
+  Font.Name = 'Tahoma'
+  Font.Style = []
+  OldCreateOrder = False
+  OnClose = FormClose
+  PixelsPerInch = 120
+  TextHeight = 16
+  object btnDatabaseForm: TButton
+    Left = 328
+    Top = 312
+    Width = 75
+    Height = 25
+    Caption = 'View Database'
+    TabOrder = 0
+  end
+  object btnReviewFeedBack: TButton
+    Left = 328
+    Top = 360
+    Width = 75
+    Height = 25
+    Caption = 'View Feedback'
+    TabOrder = 1
+  end
+  object Button3: TButton
+    Left = 328
+    Top = 400
+    Width = 75
+    Height = 25
+    Caption = 'Edit Orders'
+    TabOrder = 2
+  end
+  object Button4: TButton
+    Left = 328
+    Top = 440
+    Width = 75
+    Height = 25
+    Caption = 'Special Codes'
+    TabOrder = 3
+  end
+  object Button1: TButton
+    Left = 328
+    Top = 488
+    Width = 75
+    Height = 25
+    Caption = 'Exit'
+    TabOrder = 4
+    OnClick = Button1Click
+  end
+end
