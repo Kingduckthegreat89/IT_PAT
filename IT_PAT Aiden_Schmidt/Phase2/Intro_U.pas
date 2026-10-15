@@ -4,15 +4,18 @@ interface
 
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
-  Dialogs, pngimage, ExtCtrls, StdCtrls;
+  Dialogs, pngimage, ExtCtrls, StdCtrls, GIFImg;
 
 type
   TfrmIntro = class(TForm)
-    Image1: TImage;
     lblHint: TLabel;
+    imgIntro: TImage;
+    Timer1: TTimer;
     procedure FormKeyPress(Sender: TObject; var Key: Char);
     procedure lblHintClick(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
+    procedure FormCreate(Sender: TObject);
+    procedure Timer1Timer(Sender: TObject);
   private
     { Private declarations }
   public
@@ -27,6 +30,12 @@ uses
 Main_U, conData;
 
 {$R *.dfm}
+
+procedure TfrmIntro.FormCreate(Sender: TObject);
+begin
+(imgIntro.Picture.Graphic as TGIFImage).Animate := true;
+//(imgIntro.Picture.Graphic as TGIFImage).AnimationSpeed := 100;
+end;
 
 procedure TfrmIntro.FormDestroy(Sender: TObject);
 begin
@@ -46,6 +55,11 @@ end;
 procedure TfrmIntro.lblHintClick(Sender: TObject);
 begin
 Showmessage('This does nothing, just press a key.');
+end;
+
+procedure TfrmIntro.Timer1Timer(Sender: TObject);
+begin
+imgIntro.Picture.LoadFromFile('./Intro.png');
 end;
 
 end.

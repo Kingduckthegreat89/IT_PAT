@@ -4,7 +4,7 @@ interface
 
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
-  Dialogs, ComCtrls, StdCtrls, Buttons;
+  Dialogs, ComCtrls, StdCtrls, Buttons, pngimage, ExtCtrls;
 
 type
   TfrmUsrMenu = class(TForm)
@@ -12,6 +12,7 @@ type
     btnOrderMen: TButton;
     btnFeedBack: TButton;
     btnClose: TButton;
+    Image1: TImage;
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure Label1Click(Sender: TObject);
     procedure btnOrderMenClick(Sender: TObject);

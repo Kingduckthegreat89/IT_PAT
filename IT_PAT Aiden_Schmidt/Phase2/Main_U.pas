@@ -5,7 +5,7 @@ interface
 
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
-  Dialogs, StdCtrls;
+  Dialogs, StdCtrls, pngimage, ExtCtrls;
 
 type
   TfrmMain = class(TForm)
@@ -14,12 +14,14 @@ type
     btnUsrStart: TButton;
     btnSettings: TButton;
     btnMurderMyApp: TButton;
+    Image1: TImage;
     procedure btnMurderMyAppClick(Sender: TObject);
     procedure btnUsrStartClick(Sender: TObject);
     procedure btnAdmStartClick(Sender: TObject);
     procedure btnSettingsClick(Sender: TObject);
     procedure lblTitleClick(Sender: TObject);
     procedure FormCloseQuery(Sender: TObject; var CanClose: Boolean);
+    procedure FormCreate(Sender: TObject);
   private
     { Private declarations }
   public
@@ -81,6 +83,11 @@ iQuit := MessageDlg('Are you sure you want to quit?', mtConfirmation, mbYesNo, 0
   Application.Terminate
   else
   CanClose := false;
+end;
+
+procedure TfrmMain.FormCreate(Sender: TObject);
+begin
+btnUsrStart.Hint := 'Takes you to the main menu for ordering and feedback';
 end;
 
 procedure TfrmMain.lblTitleClick(Sender: TObject);
