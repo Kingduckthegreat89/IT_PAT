@@ -8,7 +8,6 @@ uses
 
 type
   TfrmIntro = class(TForm)
-    lblHint: TLabel;
     imgIntro: TImage;
     Timer1: TTimer;
     procedure FormKeyPress(Sender: TObject; var Key: Char);
@@ -60,6 +59,8 @@ end;
 procedure TfrmIntro.Timer1Timer(Sender: TObject);
 begin
 imgIntro.Picture.LoadFromFile('./Intro.png');
+frmIntro.Hide;
+frmMain.Show;
 end;
 
 end.

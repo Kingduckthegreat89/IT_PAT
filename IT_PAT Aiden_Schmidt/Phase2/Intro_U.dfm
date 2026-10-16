@@ -16,29 +16,11 @@ object frmIntro: TfrmIntro
   OnKeyPress = FormKeyPress
   PixelsPerInch = 120
   TextHeight = 16
-  object lblHint: TLabel
+  object imgIntro: TImage
     Left = 0
     Top = 0
     Width = 998
-    Height = 51
-    Align = alTop
-    Alignment = taCenter
-    Caption = 'Press Any Key To Continue'
-    Font.Charset = ANSI_CHARSET
-    Font.Color = clBlack
-    Font.Height = -43
-    Font.Name = 'fleshandblood'
-    Font.Style = [fsBold, fsItalic, fsUnderline]
-    ParentFont = False
-    Transparent = True
-    OnClick = lblHintClick
-    ExplicitWidth = 603
-  end
-  object imgIntro: TImage
-    Left = 0
-    Top = 51
-    Width = 998
-    Height = 674
+    Height = 725
     Align = alClient
     ParentShowHint = False
     Picture.Data = {
