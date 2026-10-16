@@ -597282,14 +597282,11 @@ object frmIntro: TfrmIntro
       A27715E277C5762382376C43F77219227783A2751175CF0202003B}
     ShowHint = False
     Stretch = True
-    ExplicitLeft = 456
-    ExplicitTop = 336
-    ExplicitWidth = 105
-    ExplicitHeight = 105
+    ExplicitLeft = 24
+    ExplicitTop = -24
   end
   object Timer1: TTimer
-    Interval = 11000
-    OnTimer = Timer1Timer
+    Interval = 1
     Left = 496
     Top = 376
   end

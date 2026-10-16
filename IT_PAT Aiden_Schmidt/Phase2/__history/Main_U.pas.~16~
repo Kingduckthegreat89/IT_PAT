@@ -5,7 +5,7 @@ interface
 
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
-  Dialogs, StdCtrls;
+  Dialogs, StdCtrls, pngimage, ExtCtrls;
 
 type
   TfrmMain = class(TForm)
@@ -14,16 +14,19 @@ type
     btnUsrStart: TButton;
     btnSettings: TButton;
     btnMurderMyApp: TButton;
+    Image1: TImage;
     procedure btnMurderMyAppClick(Sender: TObject);
     procedure btnUsrStartClick(Sender: TObject);
     procedure btnAdmStartClick(Sender: TObject);
     procedure btnSettingsClick(Sender: TObject);
     procedure lblTitleClick(Sender: TObject);
+    procedure FormCloseQuery(Sender: TObject; var CanClose: Boolean);
+    procedure FormCreate(Sender: TObject);
   private
     { Private declarations }
   public
     { Public declarations }
-
+    procedure CloseApp;
   end;
   var
     frmMain :TfrmMain;
@@ -37,7 +40,7 @@ Intro_U, usrStart_U, admStart_U, Settings_U;
 procedure TfrmMain.btnAdmStartClick(Sender: TObject);
 begin
 frmAdmMenu.Show;
-Close;
+Hide;
 end;
 
 procedure TfrmMain.btnMurderMyAppClick(Sender: TObject);
@@ -53,13 +56,38 @@ end;
 procedure TfrmMain.btnSettingsClick(Sender: TObject);
 begin
 frmSettings.Show;
-Close;
+Hide;
 end;
 
 procedure TfrmMain.btnUsrStartClick(Sender: TObject);
 begin
 frmUsrMenu.Show;
-Close;
+Hide;
+end;
+
+procedure TfrmMain.CloseApp;
+var
+ iQuit :integer;
+begin
+iQuit := MessageDlg('Are you sure you want to quit?', mtConfirmation, mbYesNo, 0);
+ if iQuit = 6 then
+  Application.Terminate;
+end;
+
+procedure TfrmMain.FormCloseQuery(Sender: TObject; var CanClose: Boolean);
+var
+ iQuit :integer;
+begin
+iQuit := MessageDlg('Are you sure you want to quit?', mtConfirmation, mbYesNo, 0);
+ if iQuit = 6 then
+  Application.Terminate
+  else
+  CanClose := false;
+end;
+
+procedure TfrmMain.FormCreate(Sender: TObject);
+begin
+btnUsrStart.Hint := 'Takes you to the main menu for ordering and feedback';
 end;
 
 procedure TfrmMain.lblTitleClick(Sender: TObject);
@@ -89,8 +117,14 @@ irandom := random(30);
   16: SHowmessage('MMMMM ~ Other Joshua');
   17: Showmessage('No, I wanna think of something ~ Other Joshua');
   18: Showmessage('Why ~ Other Joshua');
-
+  19: Showmessage('Vra mr.G vir n quote x5 ~ Joshua');
+  20: Showmessage('Wat het jy jou table genoem? ~ Liam');
+  21: Showmessage('Shalom ~ Liam');
+  22: Showmessage('Ek moet lock in vir die quote ~ Lin-Roy');
+  23: Showmessage('Gang, Gang ~ Lin-Roy');
+  24: Showmessage('Maak ene van Jaco wat se Zambak ~ Joshua');
   end;
 end;
+
 
 end.

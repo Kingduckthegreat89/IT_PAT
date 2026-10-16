@@ -10,19 +10,21 @@ type
   TfrmIntro = class(TForm)
     imgIntro: TImage;
     Timer1: TTimer;
+    tmrIntro :TTimer;
     procedure FormKeyPress(Sender: TObject; var Key: Char);
     procedure lblHintClick(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
     procedure FormCreate(Sender: TObject);
-    procedure Timer1Timer(Sender: TObject);
   private
     { Private declarations }
   public
     { Public declarations }
+    procedure tmrIntroOnTimer(Sender: TObject);
   end;
 
 var
   frmIntro: TfrmIntro;
+
 
 implementation
 uses
@@ -32,8 +34,14 @@ Main_U, conData;
 
 procedure TfrmIntro.FormCreate(Sender: TObject);
 begin
-(imgIntro.Picture.Graphic as TGIFImage).Animate := true;
-//(imgIntro.Picture.Graphic as TGIFImage).AnimationSpeed := 100;
+  (imgIntro.Picture.Graphic as TGIFImage).Animate := true;
+  tmrIntro := TTimer.Create(self);
+  with tmrIntro do
+  begin
+    Parent := self;
+    Interval := 11000;
+    OnTimer := tmrIntroOnTimer;
+  end;
 end;
 
 procedure TfrmIntro.FormDestroy(Sender: TObject);
@@ -56,11 +64,18 @@ begin
 Showmessage('This does nothing, just press a key.');
 end;
 
-procedure TfrmIntro.Timer1Timer(Sender: TObject);
+procedure TfrmIntro.tmrIntroOnTimer(Sender: TObject);
 begin
-imgIntro.Picture.LoadFromFile('./Intro.png');
-frmIntro.Hide;
-frmMain.Show;
-end;
+  imgIntro.Picture.LoadFromFile('./Intro.png');
+  frmIntro.Hide;
+  frmMain.Show;
+
+  try
+    tmrIntro.Free;    
+  finally
+  
+  end;
+  end;
+
 
 end.
