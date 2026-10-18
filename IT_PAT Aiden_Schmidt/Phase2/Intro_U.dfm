@@ -597285,9 +597285,4 @@ object frmIntro: TfrmIntro
     ExplicitLeft = 24
     ExplicitTop = -24
   end
-  object Timer1: TTimer
-    Interval = 1
-    Left = 496
-    Top = 376
-  end
 end

@@ -9,14 +9,14 @@ uses
 type
   TfrmIntro = class(TForm)
     imgIntro: TImage;
-    Timer1: TTimer;
-    tmrIntro :TTimer;
+
     procedure FormKeyPress(Sender: TObject; var Key: Char);
     procedure lblHintClick(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
     procedure FormCreate(Sender: TObject);
   private
     { Private declarations }
+    tmrIntro :TTimer;
   public
     { Public declarations }
     procedure tmrIntroOnTimer(Sender: TObject);
@@ -56,6 +56,8 @@ procedure TfrmIntro.FormKeyPress(Sender: TObject; var Key: Char);
 begin
 frmIntro.Hide;
 frmMain.Show;
+
+tmrIntro.Free;
 
 end;
 

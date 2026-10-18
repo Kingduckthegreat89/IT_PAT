@@ -4,7 +4,8 @@ interface
 
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
-  Dialogs, StdCtrls, ComCtrls, Spin, ADODB, DB, conData, StrUtils;
+  Dialogs, StdCtrls, ComCtrls, Spin, ADODB, DB, conData, StrUtils, jpeg,
+  ExtCtrls;
 
 type
   TfrmOrders = class(TForm)
@@ -22,6 +23,9 @@ type
     redDisplay: TRichEdit;
     spnAmount: TSpinEdit;
     btnDone: TButton;
+    lblManagment: TLabel;
+    Image1: TImage;
+    Label1: TLabel;
     procedure lblOrderClick(Sender: TObject);
     procedure btnListItemsClick(Sender: TObject);
     procedure btnCheckStockClick(Sender: TObject);

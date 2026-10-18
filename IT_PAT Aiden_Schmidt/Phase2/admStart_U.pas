@@ -4,7 +4,7 @@ interface
 
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
-  Dialogs, StdCtrls, DB, ADODB, Grids, DBGrids, ComCtrls;
+  Dialogs, StdCtrls, DB, ADODB, Grids, DBGrids, ComCtrls, jpeg, ExtCtrls;
 
 type
   TfrmAdmMenu = class(TForm)
@@ -16,6 +16,7 @@ type
     Label1: TLabel;
     dbgTables: TDBGrid;
     btnSave: TButton;
+    Image1: TImage;
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure btnNukeAppClick(Sender: TObject);
     procedure Label1Click(Sender: TObject);

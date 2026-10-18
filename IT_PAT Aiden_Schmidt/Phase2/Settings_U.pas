@@ -4,14 +4,13 @@ interface
 
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
-  Dialogs, StdCtrls, ExtCtrls, CheckLst;
+  Dialogs, StdCtrls, ExtCtrls, CheckLst, ComCtrls;
 
 type
   TfrmSettings = class(TForm)
-    lblSettings: TLabel;
-    clbSettings: TCheckListBox;
-    clbSecretSettings: TCheckListBox;
-    btnSaveQuit: TButton;
+    pcSettings: TPageControl;
+    tsNormalSettings: TTabSheet;
+    tsSecretSettings: TTabSheet;
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure lblSettingsClick(Sender: TObject);
     procedure btnSaveQuitClick(Sender: TObject);
