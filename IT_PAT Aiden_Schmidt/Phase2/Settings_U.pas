@@ -4,24 +4,38 @@ interface
 
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
-  Dialogs, StdCtrls, ExtCtrls, CheckLst, ComCtrls;
+  Dialogs, StdCtrls, ExtCtrls, CheckLst, ComCtrls, jpeg;
 
 type
   TfrmSettings = class(TForm)
     pcSettings: TPageControl;
     tsNormalSettings: TTabSheet;
     tsSecretSettings: TTabSheet;
+    imgNormal: TImage;
+    imgSecret: TImage;
+    lblBackground: TLabel;
+    lblIntro: TLabel;
+    lblSave: TLabel;
+    lblExit: TLabel;
+    lblNext: TLabel;
+    lblSecretMenu: TLabel;
+    edtCodes: TEdit;
+    lblExitButSecret: TLabel;
+    Label1: TLabel;
+    Label2: TLabel;
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
-    procedure lblSettingsClick(Sender: TObject);
-    procedure btnSaveQuitClick(Sender: TObject);
+    procedure lblNextClick(Sender: TObject);
+    procedure Label1Click(Sender: TObject);
   private
     { Private declarations }
   public
-    { Public declarations }
+    { Public declarations}
+
   end;
 
 var
   frmSettings: TfrmSettings;
+
 
 implementation
 uses
@@ -29,12 +43,6 @@ Main_U, Intro_U, usrStart_U, admStart_U;
 
 {$R *.dfm}
 
-procedure TfrmSettings.btnSaveQuitClick(Sender: TObject);
-begin
-  MessageDlg('The config will be stored in the data directory that you can find in the same directory as the' +
-             ' executable. There you can also edit the settings and the changes will apply once you reopen the app' +
-             '.', mtInformation, mbOKCancel, 0);
-end;
 
 procedure TfrmSettings.FormClose(Sender: TObject; var Action: TCloseAction);
 begin
@@ -42,9 +50,15 @@ begin
  frmMain.Show;
 end;
 
-procedure TfrmSettings.lblSettingsClick(Sender: TObject);
+
+procedure TfrmSettings.Label1Click(Sender: TObject);
 begin
-  showmessage('Not a setting, nor a button');
+  pcSettings.ActivePage := tsNormalSettings;
+end;
+
+procedure TfrmSettings.lblNextClick(Sender: TObject);
+begin
+pcSettings.ActivePage := tsSecretSettings;
 end;
 
 end.

@@ -239,7 +239,7 @@ end;
 
 procedure TfrmAdmMenu.Label1Click(Sender: TObject);
 begin
-Showmessage('Hello person who clicked a label and not a button');
+Showmessage('How cruel, have you no [[heartshapedobject]]?');
 end;
 
 function TfrmAdmMenu.SelectFeedBackType(const sType: string): integer;
@@ -263,6 +263,8 @@ begin
   end;
 
 end;
+
+
 
 function TfrmAdmMenu.WhichTable(const sPrompt: string): integer;
 var

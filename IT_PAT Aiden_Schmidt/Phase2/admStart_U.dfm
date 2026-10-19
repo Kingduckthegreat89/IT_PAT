@@ -1421,13 +1421,13 @@ object frmAdmMenu: TfrmAdmMenu
     Left = 56
     Top = 8
     Width = 400
-    Height = 88
+    Height = 120
     Caption = 'Admin Menu'
     Font.Charset = ANSI_CHARSET
     Font.Color = clWindowText
-    Font.Height = -67
-    Font.Name = 'JetBrains Mono NL ExtraBold'
-    Font.Style = [fsBold]
+    Font.Height = -60
+    Font.Name = 'undertale deltarune extended (F'
+    Font.Style = []
     ParentFont = False
     OnClick = Label1Click
   end

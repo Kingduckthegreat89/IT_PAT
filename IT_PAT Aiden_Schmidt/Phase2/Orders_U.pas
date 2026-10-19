@@ -65,7 +65,7 @@ var
   rNewTotal: real;
 begin
   Randomize;
-  sRandomCode := arrPromoCodes[Random(12) + 1];   // 1..12, stays in bounds
+  sRandomCode := arrPromoCodes[Random(12) + 1];
 
   with conData.dbmDatadb do
   begin
@@ -93,7 +93,7 @@ begin
     sActualCode := InputBox('Code box',
       'Please enter the second attempt at the correct code', '');
 
-    // Check the code against the array (case-insensitive)
+
     bFound := False;
     for i := 1 to 12 do
       if SameText(sActualCode, arrPromoCodes[i]) then
@@ -109,9 +109,9 @@ begin
       rNewTotal := tblOrdersdb['Total'];
       if rNewTotal > 0 then
       begin
-        rNewTotal := rNewTotal * 100 / 115;   // remove the 15% amount
+        rNewTotal := rNewTotal * 100 / 115;
 
-        // Save the change to the table
+
         tblOrdersdb.Edit;
         tblOrdersdb['Total'] := rNewTotal;
         tblOrdersdb.Post;
@@ -126,7 +126,7 @@ procedure TfrmOrders.btnCheckStockClick(Sender: TObject);
 var
   sItem :string;
 begin
-  // Guard against nothing being selected before reading the item text
+
   if cmbStock.ItemIndex = -1 then
   begin
     MessageDlg('Please select a value before checking stock!', mtError, mbOKCancel, 0);
@@ -167,7 +167,7 @@ var
   sItem, sItemType, sClientName, sClientSurname, sBank, sCode :string;
   iPrice, iNumberofItems, i :integer;
 begin
-  // Guard against nothing being selected before reading the item text
+
   if cmbItems.ItemIndex = -1 then
   begin
     MessageDlg('Please select an item first!', mtError, mbOKCancel, 0);
@@ -176,9 +176,9 @@ begin
 
   sItem := cmbItems.Items[cmbItems.ItemIndex];
   bHasDiscount := false;
-  rTotal := 0;   // reset per order, so totals don't carry over between orders
+  rTotal := 0;
 
-  //Check if the item exists in the database
+
   with conData.dbmDatadb do
   begin
     tblItemsdb.First;
@@ -195,7 +195,7 @@ begin
         sClientSurname := inputbox('Your surname', 'Please enter your surname', '');
         sbank := InputBox('Bank', 'Please enter which bank you use(type "no" if you prefer not answering)', '');
 
-        // Validate the entered fields before touching stock or the database
+
         if (sClientName = '') OR (sClientSurname = '') OR (sItem = '') OR (sItemType = '') then
         begin
           MessageDlg('Correct data has not been entered in either 1 or more fields, please ensure you have filled out ALL the fields that you were asked to fill'
