@@ -2258,6 +2258,7 @@ object frmSettings: TfrmSettings
         Font.Name = 'undertale deltarune extended (F'
         Font.Style = []
         ParentFont = False
+        OnClick = lblIntroClick
       end
       object lblSave: TLabel
         Left = 88

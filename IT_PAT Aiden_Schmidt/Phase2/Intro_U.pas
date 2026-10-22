@@ -33,15 +33,50 @@ Main_U, conData;
 {$R *.dfm}
 
 procedure TfrmIntro.FormCreate(Sender: TObject);
+var
+  tfConfig :Textfile;
+  sConfig :string;
+  bShowIntro :boolean;
 begin
-  (imgIntro.Picture.Graphic as TGIFImage).Animate := true;
-  tmrIntro := TTimer.Create(self);
-  with tmrIntro do
-  begin
-    Parent := self;
-    Interval := 11000;
-    OnTimer := tmrIntroOnTimer;
-  end;
+  bShowIntro := true;
+  AssignFile(tfConfig, './DATA/config/config.txt');
+
+  Reset(tfConfig);
+
+  while not EOF(tfConfig) do
+    begin
+      Readln(tfConfig, sConfig);
+      if pos('SkipIntro|Enabled', sConfig) > 0 then
+        begin
+          bShowIntro := false;
+          break;
+        end;
+    end;
+
+  CloseFile(tfConfig);
+
+  if bShowIntro then
+    begin
+      (imgIntro.Picture.Graphic as TGIFImage).Animate := true;
+      tmrIntro := TTimer.Create(self);
+      with tmrIntro do
+      begin
+        Parent := self;
+        Interval := 11000;
+        OnTimer := tmrIntroOnTimer;
+      end;
+    end
+  else
+    begin
+      imgIntro.Picture.LoadFromFile('./Intro.png');
+      tmrIntro := TTimer.Create(self);
+      with tmrIntro do
+      begin
+        Parent := self;
+        Interval := 1000;
+        OnTimer := tmrIntroOnTimer;
+      end;
+    end;
 end;
 
 procedure TfrmIntro.FormDestroy(Sender: TObject);

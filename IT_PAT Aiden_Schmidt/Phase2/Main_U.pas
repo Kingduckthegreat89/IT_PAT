@@ -86,8 +86,10 @@ iQuit := MessageDlg('Are you sure you want to quit?', mtConfirmation, mbYesNo, 0
 end;
 
 procedure TfrmMain.FormCreate(Sender: TObject);
+var
+  tfConfig :TextFile;
 begin
-btnUsrStart.Hint := 'Takes you to the main menu for ordering and feedback';
+  btnUsrStart.Hint := 'Takes you to the main menu for ordering and feedback';
 end;
 
 procedure TfrmMain.lblTitleClick(Sender: TObject);

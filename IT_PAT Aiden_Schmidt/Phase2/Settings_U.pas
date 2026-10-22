@@ -31,6 +31,7 @@ type
     procedure FormCreate(Sender: TObject);
     procedure btnSecretCodeClick(Sender: TObject);
     procedure lblSecretMenuClick(Sender: TObject);
+    procedure lblIntroClick(Sender: TObject);
   private
     { Private declarations }
     procedure checkSettings;
@@ -165,20 +166,23 @@ begin
       if (iNum1 > 0) AND (iNum2 > 0) then
       begin
         asm
-          push EAX
+          ///syntax: Instruction dest, src
+          push EAX  //pushes the values into memory for safety reasons
           push ECX
 
-          xor EAX, EAX
-          xor ECX, ECX
+          xor EAX, EAX    ///XOR puts the values of dest(first reg) against src(second reg).
+          xor ECX, ECX   ///The rule is: if the bits are the same(eg. 0 & 0), return 0. If they differ(0 & 1) return 1.
+          ///  This is done so both equal 0 and can be used to do math or other things.
+          ///  The delphi version would be a := 0
 
-          mov EAX, iNum1
+          mov EAX, iNum1  ///mov moves the value from the src to the dest.
           mov ECX, iNum2
 
-          add EAX, ECX
+          add EAX, ECX    /// add is just dest := src + dest.
 
           mov iResult, EAX
 
-          pop EAX
+          pop EAX    ///pop returns the original value that the registers had before they were pushed.
           pop ECX
         end;
 
@@ -244,7 +248,7 @@ begin
   else if sCode = 'Zambak' then
     begin
       ShowMessage('Jaco.');
-      if Random(400) then
+      if Random(400) = 1 then
         Application.Terminate
     end
   else if (sCode = 'gang gang') or (sCode = 'Lin-Roy') then
@@ -356,6 +360,18 @@ begin
   else if Pos('false', lowerCase(lblBackground.Caption)) > 0 then
     begin
       lblBackground.Caption := 'Enable Backgrounds:True';
+    end;
+end;
+
+procedure TfrmSettings.lblIntroClick(Sender: TObject);
+begin
+  if Pos('true', lowerCase(lblIntro.Caption)) > 0 then
+    begin
+      lblIntro.Caption := 'Skip Intro:False';
+    end
+  else if Pos('false', lowerCase(lblIntro.Caption)) > 0 then
+    begin
+      lblIntro.Caption := 'Skip Intro:True';
     end;
 end;
 
