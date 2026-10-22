@@ -12,6 +12,8 @@ object frmSettings: TfrmSettings
   Font.Style = []
   OldCreateOrder = False
   OnClose = FormClose
+  OnCreate = FormCreate
+  OnShow = FormShow
   PixelsPerInch = 120
   TextHeight = 16
   object pcSettings: TPageControl
@@ -19,13 +21,11 @@ object frmSettings: TfrmSettings
     Top = -24
     Width = 996
     Height = 769
-    ActivePage = tsSecretSettings
+    ActivePage = tsNormalSettings
     Align = alCustom
     TabOrder = 0
     object tsNormalSettings: TTabSheet
       Caption = 'tsNormalSettings'
-      ExplicitWidth = 956
-      ExplicitHeight = 714
       object imgNormal: TImage
         Left = 0
         Top = 0
@@ -2244,6 +2244,7 @@ object frmSettings: TfrmSettings
         Font.Name = 'undertale deltarune extended (F'
         Font.Style = []
         ParentFont = False
+        OnClick = lblBackgroundClick
       end
       object lblIntro: TLabel
         Left = 616
@@ -2270,19 +2271,7 @@ object frmSettings: TfrmSettings
         Font.Name = 'undertale deltarune extended (F'
         Font.Style = []
         ParentFont = False
-      end
-      object lblExit: TLabel
-        Left = 480
-        Top = 656
-        Width = 60
-        Height = 46
-        Caption = 'Exit'
-        Font.Charset = ANSI_CHARSET
-        Font.Color = clWhite
-        Font.Height = -23
-        Font.Name = 'undertale deltarune extended (F'
-        Font.Style = []
-        ParentFont = False
+        OnClick = lblSaveClick
       end
       object lblNext: TLabel
         Left = 784
@@ -2302,8 +2291,6 @@ object frmSettings: TfrmSettings
     object tsSecretSettings: TTabSheet
       Caption = 'tsSecretSettings'
       ImageIndex = 1
-      ExplicitWidth = 956
-      ExplicitHeight = 714
       object imgSecret: TImage
         Left = 0
         Top = 0
@@ -4522,21 +4509,9 @@ object frmSettings: TfrmSettings
         Font.Name = 'undertale deltarune extended (F'
         Font.Style = []
         ParentFont = False
+        OnClick = lblSecretMenuClick
       end
-      object lblExitButSecret: TLabel
-        Left = 456
-        Top = 650
-        Width = 72
-        Height = 54
-        Caption = 'Exit'
-        Font.Charset = ANSI_CHARSET
-        Font.Color = clWhite
-        Font.Height = -27
-        Font.Name = 'undertale deltarune extended (F'
-        Font.Style = []
-        ParentFont = False
-      end
-      object Label1: TLabel
+      object lblPChangePage: TLabel
         Left = 88
         Top = 650
         Width = 162
@@ -4548,9 +4523,9 @@ object frmSettings: TfrmSettings
         Font.Name = 'undertale deltarune extended (F'
         Font.Style = []
         ParentFont = False
-        OnClick = Label1Click
+        OnClick = lblPChangePageClick
       end
-      object Label2: TLabel
+      object lblCode: TLabel
         Left = 832
         Top = 608
         Width = 90
@@ -4569,6 +4544,15 @@ object frmSettings: TfrmSettings
         Width = 121
         Height = 24
         TabOrder = 0
+      end
+      object btnSecretCode: TButton
+        Left = 736
+        Top = 683
+        Width = 75
+        Height = 25
+        Caption = 'Run Code'
+        TabOrder = 1
+        OnClick = btnSecretCodeClick
       end
     end
   end

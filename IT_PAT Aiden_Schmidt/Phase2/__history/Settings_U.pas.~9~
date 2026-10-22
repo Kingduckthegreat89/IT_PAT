@@ -1,0 +1,236 @@
+unit Settings_U;
+
+interface
+
+uses
+  Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
+  Dialogs, StdCtrls, ExtCtrls, CheckLst, ComCtrls, jpeg;
+
+type
+  TfrmSettings = class(TForm)
+    pcSettings: TPageControl;
+    tsNormalSettings: TTabSheet;
+    tsSecretSettings: TTabSheet;
+    imgNormal: TImage;
+    imgSecret: TImage;
+    lblBackground: TLabel;
+    lblIntro: TLabel;
+    lblSave: TLabel;
+    lblExit: TLabel;
+    lblNext: TLabel;
+    lblSecretMenu: TLabel;
+    edtCodes: TEdit;
+    lblExitButSecret: TLabel;
+    lblPChangePage: TLabel;
+    lblCode: TLabel;
+    btnSecretCode: TButton;
+    procedure FormClose(Sender: TObject; var Action: TCloseAction);
+    procedure lblNextClick(Sender: TObject);
+    procedure lblPChangePageClick(Sender: TObject);
+    procedure lblSaveClick(Sender: TObject);
+    procedure FormShow(Sender: TObject);
+    procedure lblBackgroundClick(Sender: TObject);
+    procedure FormCreate(Sender: TObject);
+    procedure btnSecretCodeClick(Sender: TObject);
+  private
+    { Private declarations }
+    procedure checkSettings;
+    procedure checkCode(sCode: string);
+  public
+    { Public declarations}
+
+  end;
+
+var
+  frmSettings: TfrmSettings;
+  tfSettings :TextFile;
+
+
+implementation
+uses
+Main_U, Intro_U, usrStart_U, admStart_U;
+
+{$R *.dfm}
+
+
+procedure TfrmSettings.btnSecretCodeClick(Sender: TObject);
+begin
+ checkCode(edtCodes.Text);
+end;
+
+procedure TfrmSettings.checkCode(sCode: string);
+var
+  iNum1, iNum2, iResult :integer;
+begin
+///  Probably the largest if else block I will write until I get a job.
+///  Enjoy :)
+
+  if (sCode = 'BIGSHOT') or (sCode = 'spamton') or (sCode = 'salesman1997')  then
+    begin
+      lblSecretMenu.Caption := 'Secret Menu:True';
+      ShowMessage('You have unlocked the secret menu. Enjoy!');
+    end
+  else if (sCode ='upupdowndownleftrightleftrightBA') or (sCode = 'Konami') then
+    begin
+     ShowMessage('No Cheating!!');
+    end
+  else if (sCode = 'EldenRing') or (sCode = 'Godfrey') or (sCode = 'Elden Lord') then
+    begin
+      ShowMessage('Be assured, the Elden Ring resteth close at hand...');
+    end
+  else if (sCode = 'Lancer') or (sCode = 'Lancer Cookie') then
+    begin
+      Showmessage('You can buy lancer cookies when you unlock the secret menu');
+    end
+  else if (sCode = 'Jevil') or (sCode = 'The world revolving') then
+    begin
+      Showmessage('I can do anything!');
+    end
+  else if (sCode = 'ShowMessage') or (sCode = 'WriteLine') or (sCode = 'printf') or (sCode = 'echo') then
+    begin
+      Showmessage('Prints text to the screen or console...');
+      Sleep(10000);
+      Showmessage('Why did you try this?');
+    end
+  else if (sCode = 'Windows') or (sCode = 'WinSlop') or (sCode = 'MicroSlop') or (sCode = 'MicroSoft') then
+    begin
+      ShowMessage('Spyware...');
+    end
+  else if (sCode = 'Bloodborne') or (sCode = 'Yharnim') or (sCode = 'beast') then
+    begin
+      ShowMessage('Away, Away!');
+    end
+  else if (sCode = 'secret') or (sCode = 'mystery') or (sCode = 'Please give me the secret menu') then
+    begin
+      Showmessage('Fine, the code is....');
+      Sleep(20000);
+      Showmessage('I forgor');
+    end
+  else if (sCode = 'assembly') or (sCode = 'x8664') or (sCode = 'asm') then
+    begin
+      iNum1 := strtoint(inputbox('Value1', 'Please enter the first number you want to add', ''));
+      iNum2 := StrToInt(InputBox('Value2', 'Please enter the second number you want to add', ''));
+      if (iNum1 > 0) AND (iNum2 > 0) then
+      begin
+        asm
+          push EAX
+          push ECX
+
+          xor EAX, EAX
+          xor ECX, ECX
+
+          mov EAX, iNum1
+          mov ECX, iNum2
+
+          add EAX, ECX
+
+          mov iResult, EAX
+
+          pop EAX
+          pop ECX
+        end;
+
+
+        ShowMessage(IntToStr(iNum1) + ' + ' + IntToStr(iNum2) + ' = ' + IntToStr(iResult));
+      end
+      else
+      Showmessage('Enter a value before trying the code');
+    end;
+
+end;
+
+procedure TfrmSettings.checkSettings;
+begin
+ Rewrite(tfSettings);
+
+  if Pos('true', lowerCase(lblBackground.Caption)) > 0 then
+    begin
+      lblBackground.Caption := 'Enable Backgrounds:True';
+      Writeln(tfSettings, 'Backgrounds|Enabled');
+    end
+  else if Pos('false', lowerCase(lblBackground.Caption)) > 0 then
+    begin
+      lblBackground.Caption := 'Enable Backgrounds:False';
+      WriteLn(tfSettings,'Backgrounds|Disabled');
+    end;
+
+  if Pos('true', lowerCase(lblIntro.Caption)) > 0 then
+    begin
+      lblIntro.Caption := 'Skip Intro:True';
+      WriteLn(tfSettings, 'SkipIntro|Enabled');
+    end
+  else if Pos('false', lowerCase(lblIntro.Caption)) > 0 then
+    begin
+      lblIntro.Caption := 'Skip Intro:False';
+      WriteLn(tfSettings, 'SkipIntro|Disabled');
+    end;
+
+  if pos('true', lowerCase(lblSecretMenu.Caption)) > 0 then
+    begin
+      lblSecretMenu.Caption := 'Secret Menu:True';
+      WriteLn(tfSettings, 'SecretMenu|Enabled');
+    end
+  else if pos('false', lowerCase(lblSecretMenu.Caption)) > 0 then
+    begin
+      lblSecretMenu.Caption := 'Secret Menu:False';
+      WriteLn(tfSettings, 'SecretMenu|Enabled');
+    end;
+
+
+
+end;
+
+procedure TfrmSettings.FormClose(Sender: TObject; var Action: TCloseAction);
+begin
+ Action := caHide;
+ frmMain.Show;
+end;
+
+
+procedure TfrmSettings.FormCreate(Sender: TObject);
+begin
+  lblCode.Hint := 'Codes are Case Sensitive!';
+  lblCode.ShowHint := true;
+end;
+
+procedure TfrmSettings.lblPChangePageClick(Sender: TObject);
+begin
+  pcSettings.ActivePage := tsNormalSettings;
+end;
+
+procedure TfrmSettings.lblSaveClick(Sender: TObject);
+begin
+  checkSettings;
+  CloseFile(tfSettings);
+  Showmessage('Config Saved!');
+
+  frmMain.Show;
+  frmSettings.Close;
+end;
+
+procedure TfrmSettings.FormShow(Sender: TObject);
+begin
+ AssignFile(tfSettings, './DATA/config/config.txt');
+
+  Rewrite(tfSettings);
+  checkSettings;
+end;
+
+procedure TfrmSettings.lblBackgroundClick(Sender: TObject);
+begin
+  if Pos('true', lowerCase(lblBackground.Caption)) > 0 then
+    begin
+      lblBackground.Caption := 'Enable Backgrounds:False';
+    end
+  else if Pos('false', lowerCase(lblBackground.Caption)) > 0 then
+    begin
+      lblBackground.Caption := 'Enable Backgrounds:True';
+    end;
+end;
+
+procedure TfrmSettings.lblNextClick(Sender: TObject);
+begin
+pcSettings.ActivePage := tsSecretSettings;
+end;
+
+end.

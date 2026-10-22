@@ -1,0 +1,123 @@
+unit Settings_U;
+
+interface
+
+uses
+  Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
+  Dialogs, StdCtrls, ExtCtrls, CheckLst, ComCtrls, jpeg;
+
+type
+  TfrmSettings = class(TForm)
+    pcSettings: TPageControl;
+    tsNormalSettings: TTabSheet;
+    tsSecretSettings: TTabSheet;
+    imgNormal: TImage;
+    imgSecret: TImage;
+    lblBackground: TLabel;
+    lblIntro: TLabel;
+    lblSave: TLabel;
+    lblExit: TLabel;
+    lblNext: TLabel;
+    lblSecretMenu: TLabel;
+    edtCodes: TEdit;
+    lblExitButSecret: TLabel;
+    lblPChangePage: TLabel;
+    lblCode: TLabel;
+    btnSecretCode: TButton;
+    procedure FormClose(Sender: TObject; var Action: TCloseAction);
+    procedure lblNextClick(Sender: TObject);
+    procedure lblPChangePageClick(Sender: TObject);
+    procedure FormCreate(Sender: TObject);
+    procedure lblSaveClick(Sender: TObject);
+  private
+    { Private declarations }
+    procedure checkSettings;
+  public
+    { Public declarations}
+
+  end;
+
+var
+  frmSettings: TfrmSettings;
+  tfSettings :TextFile;
+
+
+implementation
+uses
+Main_U, Intro_U, usrStart_U, admStart_U;
+
+{$R *.dfm}
+
+
+procedure TfrmSettings.checkSettings;
+begin
+  if Pos('true', lowerCase(lblBackground.Caption)) > 0 then
+    begin
+      lblBackground.Caption := 'Enable Backgrounds:True';
+      Writeln(tfSettings, 'Backgrounds|Enabled');
+    end
+  else if Pos('false', lowerCase(lblBackground.Caption)) > 0 then
+    begin
+      lblBackground.Caption := 'Enable Backgrounds:False';
+      WriteLn(tfSettings,'Backgrounds|Disabled');
+    end;
+
+  if Pos('true', lowerCase(lblIntro.Caption)) > 0 then
+    begin
+      lblIntro.Caption := 'Skip Intro:True';
+      WriteLn(tfSettings, 'SkipIntro|Enabled');
+    end
+  else if Pos('false', lowerCase(lblIntro.Caption)) > 0 then
+    begin
+      lblIntro.Caption := 'Skip Intro:False';
+      WriteLn(tfSettings, 'SkipIntro|Disabled');
+    end;
+
+  if pos('true', lowerCase(lblSecretMenu.Caption)) > 0 then
+    begin
+      lblSecretMenu.Caption := 'Secret Menu:True';
+      WriteLn(tfSettings, 'SecretMenu|Enabled');
+    end
+  else if pos('false', lowerCase(lblSecretMenu.Caption)) > 0 then
+    begin
+      lblSecretMenu.Caption := 'Secret Menu:False';
+      WriteLn(tfSettings, 'SecretMenu|Enabled');
+    end;
+
+
+
+end;
+
+procedure TfrmSettings.FormClose(Sender: TObject; var Action: TCloseAction);
+begin
+ Action := caHide;
+ frmMain.Show;
+end;
+
+
+procedure TfrmSettings.lblPChangePageClick(Sender: TObject);
+begin
+  pcSettings.ActivePage := tsNormalSettings;
+end;
+
+procedure TfrmSettings.lblSaveClick(Sender: TObject);
+begin
+  checkSettings
+  CloseFile(tfSettings);
+  Showmessage('Config Saved!');
+end;
+
+procedure TfrmSettings.FormCreate(Sender: TObject);
+begin
+  AssignFile(tfSettings, './DATA/config/config.txt');
+
+  Rewrite(tfSettings);
+  checkSettings;
+end;
+
+procedure TfrmSettings.lblNextClick(Sender: TObject);
+begin
+pcSettings.ActivePage := tsSecretSettings;
+end;
+
+end.
