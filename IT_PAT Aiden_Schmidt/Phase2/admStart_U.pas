@@ -13,20 +13,23 @@ type
     btnOrders: TButton;
     btnCodes: TButton;
     btnNukeApp: TButton;
-    Label1: TLabel;
+    lblTitle: TLabel;
     dbgTables: TDBGrid;
     btnSave: TButton;
-    Image1: TImage;
+    imgBG: TImage;
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure btnNukeAppClick(Sender: TObject);
-    procedure Label1Click(Sender: TObject);
+    procedure lblTitleClick(Sender: TObject);
     procedure btnDatabaseFormClick(Sender: TObject);
     procedure btnOrdersClick(Sender: TObject);
     procedure btnSaveClick(Sender: TObject);
     procedure btnReviewFeedBackClick(Sender: TObject);
+    procedure FormCreate(Sender: TObject);
+    procedure btnCodesClick(Sender: TObject);
   private
     { Private declarations }
     redFeedback :TRichEdit;
+    redCodes :TRichEdit;
     function WhichTable (const sPrompt :string): integer;
     function SelectFeedBackType (const sType :string): integer;
 
@@ -43,10 +46,37 @@ Main_U, conData;
 
 {$R *.dfm}
 
+procedure TfrmAdmMenu.btnCodesClick(Sender: TObject);
+var
+  tfCodes :TextFile;
+  sLine :string;
+begin
+  redCodes := TRichEdit.Create(self);
+  with redCodes do
+  begin
+    Parent := self;
+    left := dbgTables.Left;
+    top := dbgTables.Top;
+    Height := dbgTables.Height;
+    Width := dbgTables.Width;
+  end;
+
+  AssignFile(tfCodes, './DATA/Codes/Codes.txt');
+
+  Reset(tfCodes);
+
+  while not EOF(tfCodes) do
+    begin
+      Readln(tfCodes, sLine);
+      redCodes.Lines.Add(sLine);
+    end;
+end;
+
 procedure TfrmAdmMenu.btnDatabaseFormClick(Sender: TObject);
 begin
   try
     redFeedback.Free;
+    redCodes.Free;
   finally
     dbgTables.Visible := true;
     btnSave.Visible := True;
@@ -65,6 +95,7 @@ procedure TfrmAdmMenu.btnOrdersClick(Sender: TObject);
 begin
   try
     redFeedback.Free;
+    redCodes.Free;
   finally
     dbgTables.DataSource := conData.dbmDatadb.dscData2db;
     dbgTables.Visible := True;
@@ -237,7 +268,27 @@ begin
  frmMain.Show;
 end;
 
-procedure TfrmAdmMenu.Label1Click(Sender: TObject);
+procedure TfrmAdmMenu.FormCreate(Sender: TObject);
+var
+  tfConfig :TextFile;
+  sConfig :string;
+begin
+  AssignFile(tfConfig, './DATA/config/config.txt');
+
+  Reset(tfConfig);
+
+  while not EOF(tfConfig) do
+    begin
+      ReadLn(tfConfig, sConfig);
+
+      if pos('Backgrounds|Disabled', sConfig) > 0 then
+          imgBG.Visible := false;
+
+    end;
+    CloseFile(tfConfig);
+end;
+
+procedure TfrmAdmMenu.lblTitleClick(Sender: TObject);
 begin
 Showmessage('How cruel, have you no [[heartshapedobject]]?');
 end;

@@ -322,6 +322,7 @@ begin
   checkSettings;
   CloseFile(tfSettings);
   Showmessage('Config Saved!');
+  ShowMessage('Remember to restart the app so your changes can apply!');
 
   frmMain.Show;
   frmSettings.Close;

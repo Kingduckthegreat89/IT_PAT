@@ -12,9 +12,10 @@ object frmUsrMenu: TfrmUsrMenu
   Font.Style = []
   OldCreateOrder = False
   OnClose = FormClose
+  OnCreate = FormCreate
   PixelsPerInch = 120
   TextHeight = 16
-  object Image1: TImage
+  object imgBG: TImage
     Left = 0
     Top = 0
     Width = 1006
@@ -45913,7 +45914,7 @@ object frmUsrMenu: TfrmUsrMenu
     ExplicitWidth = 706
     ExplicitHeight = 105
   end
-  object Label1: TLabel
+  object lblTitle: TLabel
     Left = 0
     Top = 0
     Width = 1006
@@ -45928,7 +45929,7 @@ object frmUsrMenu: TfrmUsrMenu
     Font.Name = 'Hashtag'
     Font.Style = []
     ParentFont = False
-    OnClick = Label1Click
+    OnClick = lblTitleClick
   end
   object btnOrderMen: TButton
     Left = 176

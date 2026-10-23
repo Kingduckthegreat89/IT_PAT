@@ -15,6 +15,7 @@ uses
 begin
   Application.Initialize;
   Application.MainFormOnTaskbar := True;
+  Application.Title := 'KDCAOITMOMBSFC';
   Application.CreateForm(TfrmIntro, frmIntro);
   Application.CreateForm(TfrmMain, frmMain);
   Application.CreateForm(TfrmUsrMenu, frmUsrMenu);

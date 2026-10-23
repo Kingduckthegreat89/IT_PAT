@@ -15,7 +15,7 @@ object frmOrders: TfrmOrders
   OnCreate = FormCreate
   PixelsPerInch = 120
   TextHeight = 16
-  object Image1: TImage
+  object imgBG: TImage
     Left = 0
     Top = 0
     Width = 966
@@ -23282,7 +23282,7 @@ object frmOrders: TfrmOrders
     ParentFont = False
     Transparent = True
   end
-  object Label1: TLabel
+  object lblInfo: TLabel
     Left = 151
     Top = 256
     Width = 309
@@ -23427,7 +23427,7 @@ object frmOrders: TfrmOrders
     Left = 8
     Top = 200
     Width = 196
-    Height = 33
+    Height = 26
     MaxValue = 10
     MinValue = 1
     TabOrder = 9

@@ -24,8 +24,8 @@ type
     spnAmount: TSpinEdit;
     btnDone: TButton;
     lblManagment: TLabel;
-    Image1: TImage;
-    Label1: TLabel;
+    imgBG: TImage;
+    lblInfo: TLabel;
     procedure lblOrderClick(Sender: TObject);
     procedure btnListItemsClick(Sender: TObject);
     procedure btnCheckStockClick(Sender: TObject);
@@ -48,7 +48,7 @@ var
   frmOrders: TfrmOrders;
   arrPromoCodes : array [1..12] of string = ('kingduck','geesebad','duck','haaskop','microwave','waar','trees','papyrus','birdstrike','cats','whoami','gentoobtw');
   rTotal :real;
-  bHasDiscount :boolean;
+  bHasDiscount, bSecretMenu :boolean;
 
 implementation
 
@@ -269,13 +269,24 @@ begin
 
     while NOT tblItemsdb.Eof do
     begin
-      if tblItemsdb['Secret Item'] = false then
+     if bSecretMenu = false then
+     begin
+        if tblItemsdb['Secret Item'] = false then
+          begin
+            redDisplay.Lines.Add(tblItemsdb['Item'] + #9 + floattostrf(tblItemsdb['Price'], ffCurrency, 8, 2)
+            + #10 + '----------------------------------------------------------------------------------------');
+            cmbStock.Items.Add(tblItemsdb['Item']);
+            cmbItems.Items.Add(tblItemsdb['Item']);
+          end;
+     end
+     else
       begin
-        redDisplay.Lines.Add(tblItemsdb['Item'] + #9 + floattostrf(tblItemsdb['Price'], ffCurrency, 8, 2)
-          + #10 + '----------------------------------------------------------------------------------------');
-        cmbStock.Items.Add(tblItemsdb['Item']);
-        cmbItems.Items.Add(tblItemsdb['Item']);
-      end;
+            redDisplay.Lines.Add(tblItemsdb['Item'] + #9 + floattostrf(tblItemsdb['Price'], ffCurrency, 8, 2)
+            + #10 + '----------------------------------------------------------------------------------------');
+            cmbStock.Items.Add(tblItemsdb['Item']);
+            cmbItems.Items.Add(tblItemsdb['Item']);
+          end;
+
       tblItemsdb.Next;
     end;
   end;
@@ -364,7 +375,28 @@ begin
 end;
 
 procedure TfrmOrders.FormCreate(Sender: TObject);
+var
+  tfConfig :TextFile;
+  sConfig :string;
 begin
+  bSecretMenu := false;
+  AssignFile(tfConfig, './DATA/config/config.txt');
+
+  Reset(tfConfig);
+
+  while not EOF(tfConfig) do
+    begin
+      ReadLn(tfConfig, sConfig);
+
+      if pos('Backgrounds|Disabled', sConfig) > 0 then
+          imgBG.Visible := false;
+
+      if pos('SecretMenu|Enabled', sConfig) > 0 then
+        bSecretMenu := true;
+
+    end;
+  CloseFile(tfConfig);
+
   redDisplay.Paragraph.TabCount := 3;
   redDisplay.Paragraph.Tab[1] := 100;
   redDisplay.Paragraph.Tab[2] := 200;

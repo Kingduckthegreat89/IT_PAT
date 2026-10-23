@@ -12,9 +12,10 @@ object frmAdmMenu: TfrmAdmMenu
   Font.Style = []
   OldCreateOrder = False
   OnClose = FormClose
+  OnCreate = FormCreate
   PixelsPerInch = 120
   TextHeight = 16
-  object Image1: TImage
+  object imgBG: TImage
     Left = 0
     Top = 0
     Width = 1042
@@ -1417,7 +1418,7 @@ object frmAdmMenu: TfrmAdmMenu
     ExplicitWidth = 105
     ExplicitHeight = 105
   end
-  object Label1: TLabel
+  object lblTitle: TLabel
     Left = 56
     Top = 8
     Width = 400
@@ -1429,7 +1430,7 @@ object frmAdmMenu: TfrmAdmMenu
     Font.Name = 'undertale deltarune extended (F'
     Font.Style = []
     ParentFont = False
-    OnClick = Label1Click
+    OnClick = lblTitleClick
   end
   object btnDatabaseForm: TButton
     Left = 104
@@ -1489,6 +1490,7 @@ object frmAdmMenu: TfrmAdmMenu
     Font.Style = [fsBold]
     ParentFont = False
     TabOrder = 3
+    OnClick = btnCodesClick
   end
   object btnNukeApp: TButton
     Left = 104

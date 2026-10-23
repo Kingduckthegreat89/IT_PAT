@@ -14,7 +14,7 @@ type
     btnUsrStart: TButton;
     btnSettings: TButton;
     btnMurderMyApp: TButton;
-    Image1: TImage;
+    imgBG: TImage;
     procedure btnMurderMyAppClick(Sender: TObject);
     procedure btnUsrStartClick(Sender: TObject);
     procedure btnAdmStartClick(Sender: TObject);
@@ -88,8 +88,23 @@ end;
 procedure TfrmMain.FormCreate(Sender: TObject);
 var
   tfConfig :TextFile;
+  sConfig :string;
 begin
   btnUsrStart.Hint := 'Takes you to the main menu for ordering and feedback';
+
+  AssignFile(tfConfig, './DATA/config/config.txt');
+
+  Reset(tfConfig);
+
+  while not EOF(tfConfig) do
+    begin
+      ReadLn(tfConfig, sConfig);
+
+      if pos('Backgrounds|Disabled', sConfig) > 0 then
+          imgBG.Visible := false;
+
+    end;
+    CloseFile(tfConfig);
 end;
 
 procedure TfrmMain.lblTitleClick(Sender: TObject);

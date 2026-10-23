@@ -1,0 +1,383 @@
+unit Settings_U;
+
+interface
+
+uses
+  Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
+  Dialogs, StdCtrls, ExtCtrls, CheckLst, ComCtrls, jpeg;
+
+type
+  TfrmSettings = class(TForm)
+    pcSettings: TPageControl;
+    tsNormalSettings: TTabSheet;
+    tsSecretSettings: TTabSheet;
+    imgNormal: TImage;
+    imgSecret: TImage;
+    lblBackground: TLabel;
+    lblIntro: TLabel;
+    lblSave: TLabel;
+    lblNext: TLabel;
+    lblSecretMenu: TLabel;
+    edtCodes: TEdit;
+    lblPChangePage: TLabel;
+    lblCode: TLabel;
+    btnSecretCode: TButton;
+    procedure FormClose(Sender: TObject; var Action: TCloseAction);
+    procedure lblNextClick(Sender: TObject);
+    procedure lblPChangePageClick(Sender: TObject);
+    procedure lblSaveClick(Sender: TObject);
+    procedure FormShow(Sender: TObject);
+    procedure lblBackgroundClick(Sender: TObject);
+    procedure FormCreate(Sender: TObject);
+    procedure btnSecretCodeClick(Sender: TObject);
+    procedure lblSecretMenuClick(Sender: TObject);
+    procedure lblIntroClick(Sender: TObject);
+  private
+    { Private declarations }
+    procedure checkSettings;
+    procedure checkCode(sCode: string);
+    procedure ArchBtw;
+  public
+    { Public declarations}
+
+  end;
+
+var
+  frmSettings: TfrmSettings;
+  tfSettings :TextFile;
+
+
+implementation
+uses
+Main_U, Intro_U, usrStart_U, admStart_U;
+
+{$R *.dfm}
+
+
+procedure TfrmSettings.ArchBtw;
+var
+  frmForm :TForm;
+  memDisplay :TMemo;
+begin
+  frmForm := TForm.CreateNew(Application);
+
+  try
+    with frmForm do
+      begin
+        Caption := 'Archbtw';
+        BorderStyle := bsDialog;
+        Position := poScreenCenter;
+        ClientHeight := 760;
+        ClientWidth := 740;
+      end;
+    //"with" broke the code. Potential hack??
+    memDisplay := TMemo.Create(frmForm);
+    memDisplay.Parent := frmForm;
+    memDisplay.Align := alClient;
+    memDisplay.ReadOnly := true;
+    memDisplay.WordWrap := false;
+    memDisplay.ScrollBars := ssNone;
+    memDisplay.Font.Name := 'Consolas';
+    memDisplay.Font.Size := 20;
+    memDisplay.Lines.Add('                  -`');
+    memDisplay.Lines.Add('                 .o+`');
+    memDisplay.Lines.Add('                `ooo/');
+    memDisplay.Lines.Add('               `+oooo:');
+    memDisplay.Lines.Add('              `+oooooo:');
+    memDisplay.Lines.Add('              -+oooooo+:');
+    memDisplay.Lines.Add('            `/:-:++oooo+:');
+    memDisplay.Lines.Add('           `/++++/+++++++:');
+    memDisplay.Lines.Add('          `/++++++++++++++:');
+    memDisplay.Lines.Add('         `/+++ooooooooooooo/`');
+    memDisplay.Lines.Add('        ./ooosssso++osssssso+`');
+    memDisplay.Lines.Add('       .oossssso-````/ossssss+`');
+    memDisplay.Lines.Add('      -osssssso.      :ssssssso.');
+    memDisplay.Lines.Add('     :osssssss/        osssso+++.');
+    memDisplay.Lines.Add('    /ossssssss/        +ssssooo/-');
+    memDisplay.Lines.Add('  `/ossssso+/:-        -:/+osssso+-');
+    memDisplay.Lines.Add(' `+sso+:-`                 `.-/+oso:');
+    memDisplay.Lines.Add('`++:.                           `-/+/');
+    memDisplay.Lines.Add('.`                                 `/');
+
+
+    frmForm.ShowModal;
+  finally
+    frmForm.Free;
+  end;
+end;
+
+procedure TfrmSettings.btnSecretCodeClick(Sender: TObject);
+begin
+ checkCode(edtCodes.Text);
+end;
+
+procedure TfrmSettings.checkCode(sCode: string);
+var
+  iNum1, iNum2, iResult :integer;
+begin
+///  Probably the largest if else block I will write until I get a job.
+///  Enjoy :)
+
+  if (sCode = 'BIGSHOT') or (sCode = 'spamton') or (sCode = 'salesman1997')  then
+    begin
+      lblSecretMenu.Caption := 'Secret Menu:True';
+      ShowMessage('You have unlocked the secret menu. Enjoy!');
+    end
+  else if (sCode ='upupdowndownleftrightleftrightBA') or (sCode = 'Konami') then
+    begin
+     ShowMessage('No Cheating!!');
+    end
+  else if (sCode = 'EldenRing') or (sCode = 'Godfrey') or (sCode = 'Elden Lord') then
+    begin
+      ShowMessage('Be assured, the Elden Ring resteth close at hand...');
+    end
+  else if (sCode = 'Lancer') or (sCode = 'Lancer Cookie') then
+    begin
+      Showmessage('You can buy lancer cookies when you unlock the secret menu');
+    end
+  else if (sCode = 'Jevil') or (sCode = 'The world revolving') then
+    begin
+      Showmessage('I can do anything!');
+    end
+  else if (sCode = 'ShowMessage') or (sCode = 'WriteLine') or (sCode = 'printf') or (sCode = 'echo') then
+    begin
+      Showmessage('Prints text to the screen or console...');
+      Sleep(10000);
+      Showmessage('Why did you try this?');
+    end
+  else if (sCode = 'Windows') or (sCode = 'WinSlop') or (sCode = 'MicroSlop') or (sCode = 'MicroSoft') then
+    begin
+      ShowMessage('Spyware...');
+    end
+  else if (sCode = 'Bloodborne') or (sCode = 'Yharnim') or (sCode = 'beast') then
+    begin
+      ShowMessage('Away, Away!');
+    end
+  else if (sCode = 'secret') or (sCode = 'mystery') or (sCode = 'Please give me the secret menu') then
+    begin
+      Showmessage('Fine, the code is....');
+      Sleep(20000);
+      Showmessage('I forgor');
+    end
+  else if (sCode = 'assembly') or (sCode = 'x8664') or (sCode = 'asm') then
+    begin
+      iNum1 := strtoint(inputbox('Value1', 'Please enter the first number you want to add', ''));
+      iNum2 := StrToInt(InputBox('Value2', 'Please enter the second number you want to add', ''));
+      if (iNum1 > 0) AND (iNum2 > 0) then
+      begin
+        asm
+          ///syntax: Instruction dest, src
+          push EAX  //pushes the values into memory for safety reasons
+          push ECX
+
+          xor EAX, EAX    ///XOR puts the values of dest(first reg) against src(second reg).
+          xor ECX, ECX   ///The rule is: if the bits are the same(eg. 0 & 0), return 0. If they differ(0 & 1) return 1.
+          ///  This is done so both equal 0 and can be used to do math or other things.
+          ///  The delphi version would be a := 0
+
+          mov EAX, iNum1  ///mov moves the value from the src to the dest.
+          mov ECX, iNum2
+
+          add EAX, ECX    /// add is just dest := src + dest.
+
+          mov iResult, EAX
+
+          pop EAX    ///pop returns the original value that the registers had before they were pushed.
+          pop ECX
+        end;
+
+
+        ShowMessage(IntToStr(iNum1) + ' + ' + IntToStr(iNum2) + ' = ' + IntToStr(iResult));
+      end
+      else
+      Showmessage('Enter a value before trying the code');
+    end
+  else if (sCode = 'altf4') or (sCode = 'alt+f4')  then
+    begin
+      Application.Terminate;
+    end
+  else if (sCode = 'One Piece') or (sCode = 'Mid Piece') then
+    begin
+      ShowMessage('Ew. Leave the app.');
+      Application.Terminate;
+    end
+  else if (sCode = 'Linux') or (sCode = 'fastfetch') or (sCode = 'neofetch') or (sCode = 'arch-btw') then
+    begin
+      ArchBtw;
+    end
+  else if (sCode = 'bsd') or (sCode = 'FreeBSD') or (sCode = 'OpenBSD') then
+    begin
+      ShowMessage('Insane ball knowledge');
+    end
+  else if (sCode = 'Playstation') or (sCode = 'Bad Console') or (sCode = 'Sony') then
+    begin
+      case MessageDlg('Are you sure?', mtWarning, mbYesNo, 0) of
+        mrYes :
+          begin
+            MessageDlg('Successfully Removed C:\Windows\System32', mtInformation, mbOKCancel, 0);
+            Application.Terminate;
+          end;
+        mrNo : Showmessage('Good Choice...');
+      end;
+    end
+  else if (sCode = 'xbox') or (sCode = 'Good Console') then
+    begin
+      Showmessage('Goated');
+    end
+  else if (sCode = 'flowers') or (sCode = 'flowery') or (sCode = 'jarona') then
+    begin
+      Showmessage('Crashery.');
+      Application.Terminate;
+    end
+  else if (sCode = 'persona') or (sCode = 'Orpheus') or (sCode = 'Izanagi') or (sCode = 'Arsene') then
+    begin
+      Showmessage('4th October. Iykyk.');
+    end
+  else if (sCode = 'true story') or (sCode = 'true story btw') then
+    begin
+      Showmessage('I know it' + #39 +'s you sir.');
+    end
+  else if (sCode = 'JJBA') or (sCode = 'Jojo') or (sCode = 'peak') then
+    begin
+      ShowMessage('I could be watching Part 7 but nooo, we have a project and exams...');
+    end
+  else if sCode = 'Waar' then
+    begin
+      ShowMessage('Die Palace');
+    end
+  else if sCode = 'Zambak' then
+    begin
+      ShowMessage('Jaco.');
+      if Random(400) = 1 then
+        Application.Terminate
+    end
+  else if (sCode = 'gang gang') or (sCode = 'Lin-Roy') then
+    begin
+      ShowMessage('We miss him.');
+    end;
+
+end;
+
+procedure TfrmSettings.checkSettings;
+begin
+ Rewrite(tfSettings);
+
+  if Pos('true', lowerCase(lblBackground.Caption)) > 0 then
+    begin
+      lblBackground.Caption := 'Enable Backgrounds:True';
+      Writeln(tfSettings, 'Backgrounds|Enabled');
+    end
+  else if Pos('false', lowerCase(lblBackground.Caption)) > 0 then
+    begin
+      lblBackground.Caption := 'Enable Backgrounds:False';
+      WriteLn(tfSettings,'Backgrounds|Disabled');
+    end;
+
+  if Pos('true', lowerCase(lblIntro.Caption)) > 0 then
+    begin
+      lblIntro.Caption := 'Skip Intro:True';
+      WriteLn(tfSettings, 'SkipIntro|Enabled');
+    end
+  else if Pos('false', lowerCase(lblIntro.Caption)) > 0 then
+    begin
+      lblIntro.Caption := 'Skip Intro:False';
+      WriteLn(tfSettings, 'SkipIntro|Disabled');
+    end;
+
+  if pos('true', lowerCase(lblSecretMenu.Caption)) > 0 then
+    begin
+      lblSecretMenu.Caption := 'Secret Menu:True';
+      WriteLn(tfSettings, 'SecretMenu|Enabled');
+    end
+  else if pos('false', lowerCase(lblSecretMenu.Caption)) > 0 then
+    begin
+      lblSecretMenu.Caption := 'Secret Menu:False';
+      WriteLn(tfSettings, 'SecretMenu|Enabled');
+    end;
+
+
+
+end;
+
+procedure TfrmSettings.FormClose(Sender: TObject; var Action: TCloseAction);
+begin
+ Action := caHide;
+ frmMain.Show;
+end;
+
+
+procedure TfrmSettings.FormCreate(Sender: TObject);
+begin
+  lblCode.Hint := 'Codes are Case Sensitive!';
+  lblCode.ShowHint := true;
+end;
+
+procedure TfrmSettings.lblPChangePageClick(Sender: TObject);
+begin
+  pcSettings.ActivePage := tsNormalSettings;
+end;
+
+procedure TfrmSettings.lblSaveClick(Sender: TObject);
+begin
+  checkSettings;
+  CloseFile(tfSettings);
+  Showmessage('Config Saved!');
+
+  frmMain.Show;
+  frmSettings.Close;
+end;
+
+procedure TfrmSettings.lblSecretMenuClick(Sender: TObject);
+begin
+  if pos('false', lowerCase(lblSecretMenu.Caption)) > 0 then
+    begin
+      ShowMessage('No.');
+      lblSecretMenu.Font.Name := 'Wingdings';
+      lblSecretMenu.Font.Charset := SYMBOL_CHARSET;
+    end
+  else if pos('true', lowerCase(lblSecretMenu.Caption)) > 0 then
+    begin
+      ShowMessage('You cannot go back now, go try the secret menu. Please.');
+      lblSecretMenu.Font.Name := 'undertale deltarune extended (F';
+      lblSecretMenu.Font.Charset := ANSI_CHARSET;
+    end;
+end;
+
+procedure TfrmSettings.FormShow(Sender: TObject);
+begin
+ AssignFile(tfSettings, './DATA/config/config.txt');
+
+  Rewrite(tfSettings);
+  checkSettings;
+end;
+
+procedure TfrmSettings.lblBackgroundClick(Sender: TObject);
+begin
+  if Pos('true', lowerCase(lblBackground.Caption)) > 0 then
+    begin
+      lblBackground.Caption := 'Enable Backgrounds:False';
+    end
+  else if Pos('false', lowerCase(lblBackground.Caption)) > 0 then
+    begin
+      lblBackground.Caption := 'Enable Backgrounds:True';
+    end;
+end;
+
+procedure TfrmSettings.lblIntroClick(Sender: TObject);
+begin
+  if Pos('true', lowerCase(lblIntro.Caption)) > 0 then
+    begin
+      lblIntro.Caption := 'Skip Intro:False';
+    end
+  else if Pos('false', lowerCase(lblIntro.Caption)) > 0 then
+    begin
+      lblIntro.Caption := 'Skip Intro:True';
+    end;
+end;
+
+procedure TfrmSettings.lblNextClick(Sender: TObject);
+begin
+pcSettings.ActivePage := tsSecretSettings;
+end;
+
+end.

@@ -8,16 +8,17 @@ uses
 
 type
   TfrmUsrMenu = class(TForm)
-    Label1: TLabel;
+    lblTitle: TLabel;
     btnOrderMen: TButton;
     btnFeedBack: TButton;
     btnClose: TButton;
-    Image1: TImage;
+    imgBG: TImage;
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
-    procedure Label1Click(Sender: TObject);
+    procedure lblTitleClick(Sender: TObject);
     procedure btnOrderMenClick(Sender: TObject);
     procedure btnFeedBackClick(Sender: TObject);
     procedure btnCloseClick(Sender: TObject);
+    procedure FormCreate(Sender: TObject);
   private
     { Private declarations }
   public
@@ -130,6 +131,27 @@ begin
  frmMain.Show;
 end;
 
+procedure TfrmUsrMenu.FormCreate(Sender: TObject);
+var
+  tfConfig :TextFile;
+  sConfig :string;
+begin
+  AssignFile(tfConfig, './DATA/config/config.txt');
+
+  Reset(tfConfig);
+
+  while not EOF(tfConfig) do
+    begin
+      ReadLn(tfConfig, sConfig);
+
+      if pos('Backgrounds|Disabled', sConfig) > 0 then
+          imgBG.Visible := false;
+
+    end;
+    CloseFile(tfConfig);
+
+end;
+
 function TfrmUsrMenu.getFeedBackType(const sMessage: string): integer;
 var
  frmMsg :Tform;
@@ -152,7 +174,7 @@ begin
 
 end;
 
-procedure TfrmUsrMenu.Label1Click(Sender: TObject);
+procedure TfrmUsrMenu.lblTitleClick(Sender: TObject);
 begin
 showmessage('Yo, can you stop clicking the labels and order the [[CHEAP]] meals');
 end;

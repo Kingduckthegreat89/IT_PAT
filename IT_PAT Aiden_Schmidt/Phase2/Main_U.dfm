@@ -15,7 +15,7 @@ object frmMain: TfrmMain
   OnCreate = FormCreate
   PixelsPerInch = 120
   TextHeight = 16
-  object Image1: TImage
+  object imgBG: TImage
     Left = 0
     Top = 0
     Width = 1117
